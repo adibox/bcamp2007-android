@@ -1,23 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical" >
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        style="@style/Widget.AppCompat.Light.ListView.DropDown">
-    </ListView>
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dip"
-        android:background="@color/btn_logut_bg"
-        android:text="@string/btn_logout"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="15dp"
-        android:visibility="visible"/>
-</LinearLayout>
+    <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/btnRefresh"
+            android:text="@string/btn_refresh" android:layout_alignParentTop="true" />
+
+    <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/btnLogout"
+            android:text="@string/btn_logout" android:layout_alignParentBottom="true" />
+
+    <ListView android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:id="@+id/listView"
+              android:layout_alignParentLeft="true" android:layout_above="@id/btnLogout" android:layout_below="@id/btnRefresh" />
+
+
+</RelativeLayout>

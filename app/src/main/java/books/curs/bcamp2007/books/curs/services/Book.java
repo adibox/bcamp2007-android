@@ -35,19 +35,19 @@ public class Book {
     author = pAuthor;
   }
 
-  public int getAvailable() {
+  public int getAvailableCount() {
     return available;
   }
 
-  public void setAvailable(int pAvailable) {
+  public void setAvailableCount(int pAvailable) {
     available = pAvailable;
   }
 
-  public int getBooked() {
+  public int getSellCount() {
     return booked;
   }
 
-  public void setBooked(int pBooked) {
+  public void setSellCount(int pBooked) {
     booked = pBooked;
   }
 
