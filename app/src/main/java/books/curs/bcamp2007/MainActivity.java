@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import books.curs.bcamp2007.books.curs.services.Book;
 import books.curs.bcamp2007.books.curs.services.UserServiceInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,8 +23,9 @@ import retrofit2.Response;
 
 public class MainActivity extends Activity {
 
-  private TextView txtName;
-  private TextView txtEmail;
+  private ListView listView;
+  private ArrayAdapter<Book> bookAdapter;
+  private ArrayList<Book> books = new ArrayList<>();
   private Button btnLogout;
 
   private UserServiceInterface mUserIntf;
@@ -29,11 +35,28 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    txtName = (TextView) findViewById(R.id.name);
-    txtEmail = (TextView) findViewById(R.id.email);
+    listView = (ListView)findViewById(R.id.listView);
+    bookAdapter = new ArrayAdapter<Book>(this,android.R.layout.simple_list_item_1,books);
     btnLogout = (Button) findViewById(R.id.btnLogout);
 
     mUserIntf = AppController.getInstance().getUserServiceInterface();
+
+    AppController.getInstance().getBookServiceInterface().getAllBooks().enqueue(new Callback<List<Book>>() {
+      @Override
+      public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+        if(response.isSuccessful()) {
+          //books.clear();
+          books.addAll(response.body());
+
+          bookAdapter.notifyDataSetChanged();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<List<Book>> call, Throwable t) {
+
+      }
+    });
 
     mUserIntf.isLoggedIn().enqueue(new Callback<Boolean>() {
       @Override

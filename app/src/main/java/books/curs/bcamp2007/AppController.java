@@ -6,6 +6,7 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 
+import books.curs.bcamp2007.books.curs.services.BookServiceInterface;
 import books.curs.bcamp2007.books.curs.services.PersistentCookieStore;
 import books.curs.bcamp2007.books.curs.services.UserServiceInterface;
 import okhttp3.JavaNetCookieJar;
@@ -18,6 +19,7 @@ public class AppController extends Application {
   public static final String TAG = AppController.class.getSimpleName();
 
   private UserServiceInterface mUserService;
+  private BookServiceInterface mBookService;
   private OkHttpClient mOKClient;
 
   private static AppController mInstance;
@@ -28,11 +30,11 @@ public class AppController extends Application {
     mInstance = this;
   }
 
-  public static synchronized AppController getInstance() {
+  public static AppController getInstance() {
     return mInstance;
   }
 
-  public UserServiceInterface getUserServiceInterface() {
+  private void initServices() {
     if (mUserService == null) {
       // init okhttp 3 logger
       CookieHandler cookieHandler = new CookieManager(
@@ -48,8 +50,18 @@ public class AppController extends Application {
 
       Retrofit client = new Retrofit.Builder().baseUrl(AppConfig.URL_LOGIN).client(mOKClient).addConverterFactory(JacksonConverterFactory.create()).build();
       mUserService = client.create(UserServiceInterface.class);
+      mBookService = client.create(BookServiceInterface.class);
     }
 
+  }
+
+  public UserServiceInterface getUserServiceInterface() {
+    initServices();
     return mUserService;
+  }
+
+  public BookServiceInterface getBookServiceInterface() {
+    initServices();
+    return mBookService;
   }
 }
